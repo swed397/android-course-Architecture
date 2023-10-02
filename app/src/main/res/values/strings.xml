@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">android-course- Architecture</string>
+    <string name="app_name">android-course-Architecture</string>
+    <string name="calories">calories:</string>
 </resources>
