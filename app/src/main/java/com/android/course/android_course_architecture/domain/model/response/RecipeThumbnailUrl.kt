@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 data class RecipeThumbnailUrl(
 
     @SerializedName("url")
-    val uri: String
+    val url: String
 )

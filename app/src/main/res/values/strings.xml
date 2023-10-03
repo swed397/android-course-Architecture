@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">android-course-Architecture</string>
     <string name="calories">calories:</string>
+    <string name="search_hint">Что хотите найти?</string>
 </resources>

@@ -20,8 +20,7 @@
         android:id="@+id/recycler_item_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:textSize="30dp"
+        android:textSize="15dp"
         tools:text="Test" />
 
     <TextView
@@ -29,6 +28,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/calories"
-        android:textSize="20dp" />
+        android:textSize="10dp" />
 
 </LinearLayout>
