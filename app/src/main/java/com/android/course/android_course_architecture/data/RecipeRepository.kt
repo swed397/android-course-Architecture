@@ -23,3 +23,4 @@ class RecipeRepository(private val recipesService: RecipesService) {
 
     private fun getImageByUrl(url: String): Bitmap = Picasso.get().load(url).get()
 }
+

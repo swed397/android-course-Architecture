@@ -1,4 +1,4 @@
-package com.android.course.android_course_architecture.presentation
+package com.android.course.android_course_architecture.presentation.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
