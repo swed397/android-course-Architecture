@@ -1,4 +1,4 @@
-package com.android.course.android_course_architecture.presentation
+package com.android.course.android_course_architecture.presentation.main
 
 import android.os.Bundle
 import android.view.View
@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.android.course.android_course_architecture.R
-import com.android.course.android_course_architecture.presentation.adapters.MainRecyclerViewAdapter
+import com.android.course.android_course_architecture.presentation.recipe.RecipeFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity() {
             findViewById<ProgressBar?>(R.id.progress_bar).apply { visibility = View.GONE }
 
         val recyclerView = findViewById<RecyclerView>(R.id.main_recycler_view)
-        val adapter = MainRecyclerViewAdapter()
+        val adapter = MainRecyclerViewAdapter { uri ->
+            onClickRecyclerViewItem(uri)
+        }
         recyclerView.adapter = adapter
 
         buttonSearch.setOnClickListener {
@@ -56,8 +58,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun onClickRecyclerViewItem(uri: String) {
+        val fragment = RecipeFragment.newInstance(uri)
+        supportFragmentManager.beginTransaction()
+            .add(R.id.recipe_fragments_container_view_tag, fragment)
+            .commit()
+    }
+
     private fun errorToast() {
         Toast.makeText(applicationContext, "Something wrong. Try again later", Toast.LENGTH_LONG)
             .show()
+    }
+
+    companion object {
+        const val KEY = "KEY"
     }
 }

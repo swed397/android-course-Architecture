@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:background="@color/light_orange"
         android:orientation="vertical"
-        tools:context=".presentation.MainActivity">
+        tools:context=".presentation.main.MainActivity">
 
         <EditText
             android:id="@+id/search_field"
@@ -55,6 +55,15 @@
             tools:itemCount="4"
             tools:listitem="@layout/recycler_view_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/recipe_fragments_container_view_tag"
+        android:name="com.android.course.android_course_architecture.presentation.recipe.RecipeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

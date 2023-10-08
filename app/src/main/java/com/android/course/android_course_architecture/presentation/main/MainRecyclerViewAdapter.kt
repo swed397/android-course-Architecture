@@ -1,4 +1,4 @@
-package com.android.course.android_course_architecture.presentation.adapters
+package com.android.course.android_course_architecture.presentation.main
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.course.android_course_architecture.R
 import com.android.course.android_course_architecture.domain.model.RecipesModel
 
-class MainRecyclerViewAdapter :
-    RecyclerView.Adapter<MainRecyclerViewAdapter.MainRecyclerViewHolder>() {
+class MainRecyclerViewAdapter(
+    private val onClickItem: (uri: String) -> Unit
+) : RecyclerView.Adapter<MainRecyclerViewAdapter.MainRecyclerViewHolder>() {
 
     var recipesList: List<RecipesModel> = emptyList()
 
@@ -38,6 +39,14 @@ class MainRecyclerViewAdapter :
         private val labelTextView: TextView by lazy { itemView.findViewById(R.id.recycler_item_text_view) }
         private val caloriesTextView: TextView by lazy { itemView.findViewById(R.id.recycler_item_text_view_calories) }
         private val imageView: ImageView by lazy { itemView.findViewById(R.id.recycle_item_image_view) }
+
+        init {
+            itemView.setOnClickListener {
+                onClickItem.invoke(
+                    recipesList[bindingAdapterPosition].uri
+                )
+            }
+        }
 
         fun bind(position: Int) {
             labelTextView.apply {

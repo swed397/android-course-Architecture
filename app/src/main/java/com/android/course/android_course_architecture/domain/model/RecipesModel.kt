@@ -5,5 +5,6 @@ import android.graphics.Bitmap
 data class RecipesModel(
     val label: String,
     val calories: Int,
-    val image: Bitmap?
+    val image: Bitmap?,
+    val uri: String
 )

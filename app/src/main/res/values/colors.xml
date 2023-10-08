@@ -11,7 +11,8 @@
     <color name="gray">#404040</color>
     <color name="milk">#FFECA7</color>
     <color name="light_pink">#FFA9D5</color>
-    <color name="light_blue">#98B5FF</color>
+    <color name="light_blue">#B6CAFF</color>
     <color name="light_orange">#FFD5BE</color>
     <color name="light_green">#AFFF9C</color>
+    <color name="light_cyan">#9CFFEB</color>
 </resources>

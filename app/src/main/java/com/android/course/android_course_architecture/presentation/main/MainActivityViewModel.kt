@@ -1,4 +1,4 @@
-package com.android.course.android_course_architecture.presentation
+package com.android.course.android_course_architecture.presentation.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

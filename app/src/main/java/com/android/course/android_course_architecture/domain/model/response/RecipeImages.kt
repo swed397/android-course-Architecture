@@ -5,5 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class RecipeImages(
 
     @SerializedName("THUMBNAIL")
-    val thumbnail: RecipeThumbnailUrl
+    val thumbnail: RecipeThumbnailUrl,
+
+    @SerializedName("REGULAR")
+    val regular: RecipeThumbnailUrl
 )

@@ -16,4 +16,12 @@ interface RecipesService {
         @Query("app_key") appKey: String = APP_KEY,
         @Query("q") query: String
     ): RecipeResponse
+
+    @GET("recipes/v2/by-uri")
+    suspend fun getRecipeByUri(
+        @Query("app_id") appId: String = APP_ID,
+        @Query("type") type: String = TYPE,
+        @Query("app_key") appKey: String = APP_KEY,
+        @Query("uri") uri: List<String>
+    ): RecipeResponse
 }
