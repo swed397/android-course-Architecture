@@ -11,10 +11,20 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/recycle_item_image_view"
+    <FrameLayout
         android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_height="100dp">
+
+        <ImageView
+            android:id="@+id/recycle_item_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/main_image_view_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/recycler_item_text_view"

@@ -3,7 +3,7 @@ package com.android.course.android_course_architecture.data.api
 import com.android.course.android_course_architecture.data.api.RetrofitClientInstance.APP_ID
 import com.android.course.android_course_architecture.data.api.RetrofitClientInstance.APP_KEY
 import com.android.course.android_course_architecture.data.api.RetrofitClientInstance.TYPE
-import com.android.course.android_course_architecture.domain.model.response.RecipeResponse
+import com.android.course.android_course_architecture.data.response.RecipeResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

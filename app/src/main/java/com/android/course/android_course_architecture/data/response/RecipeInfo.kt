@@ -1,4 +1,4 @@
-package com.android.course.android_course_architecture.domain.model.response
+package com.android.course.android_course_architecture.data.response
 
 import com.google.gson.annotations.SerializedName
 

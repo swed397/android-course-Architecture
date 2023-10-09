@@ -7,6 +7,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.android.course.android_course_architecture.R
@@ -14,13 +16,13 @@ import com.android.course.android_course_architecture.presentation.recipe.Recipe
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var buttonSearch: Button
     private lateinit var searchField: TextView
     private lateinit var progressBar: ProgressBar
+    private lateinit var adapter: MainRecyclerViewAdapter
 
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
@@ -36,25 +38,27 @@ class MainActivity : AppCompatActivity() {
             findViewById<ProgressBar?>(R.id.progress_bar).apply { visibility = View.GONE }
 
         val recyclerView = findViewById<RecyclerView>(R.id.main_recycler_view)
-        val adapter = MainRecyclerViewAdapter { uri ->
+        adapter = MainRecyclerViewAdapter { uri ->
             onClickRecyclerViewItem(uri)
         }
         recyclerView.adapter = adapter
 
         buttonSearch.setOnClickListener {
-            scope.launch { viewModel.getAllRecipes(searchField.text.toString()) { errorToast() } }
-
-            viewModel.adapterData.observe(this@MainActivity) {
-                adapter.setData(it)
-            }
+            viewModel.getAllRecipes(searchField.text.toString())
         }
 
-        viewModel.progressBarState.observe(this) {
-            if (it) {
-                progressBar.visibility = View.VISIBLE
-            } else {
-                progressBar.visibility = View.GONE
+        viewModel.state.observe(this, ::render)
+    }
+
+    private fun render(state: MainActivityViewState) {
+        when (state) {
+            is MainActivityViewState.Loading -> progressBar.isVisible = true
+            is MainActivityViewState.Content -> {
+                progressBar.isGone = true
+                adapter.setData(state.items)
             }
+
+            is MainActivityViewState.Error -> errorToast()
         }
     }
 

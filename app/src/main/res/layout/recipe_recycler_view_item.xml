@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
@@ -15,11 +15,22 @@
         android:textSize="20dp"
         tools:text="kmfmglmfglmflgmlgm" />
 
-    <ImageView
-        android:id="@+id/recipe_recycler_image_view"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|top"
-        tools:background="@drawable/ic_launcher_foreground" />
+        android:layout_gravity="center|top">
+
+        <ImageView
+            android:id="@+id/recipe_recycler_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:background="@drawable/ic_launcher_foreground" />
+
+        <ProgressBar
+            android:id="@+id/recipe_image_view_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 </LinearLayout>

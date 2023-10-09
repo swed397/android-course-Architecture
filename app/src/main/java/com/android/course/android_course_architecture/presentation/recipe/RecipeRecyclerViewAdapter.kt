@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.course.android_course_architecture.R
 import com.android.course.android_course_architecture.domain.model.RecipeStep
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 class RecipeRecyclerViewAdapter :
     RecyclerView.Adapter<RecipeRecyclerViewAdapter.RecipeRecyclerViewHolder>() {
@@ -17,7 +21,7 @@ class RecipeRecyclerViewAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeRecyclerViewHolder {
         val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycler_view_item, parent, false)
+            .inflate(R.layout.recipe_recycler_view_item, parent, false)
 
         return RecipeRecyclerViewHolder(view)
     }
@@ -37,14 +41,20 @@ class RecipeRecyclerViewAdapter :
     inner class RecipeRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textView: TextView by lazy { itemView.findViewById(R.id.recipe_recycler_text_view) }
         private val imageView: ImageView by lazy { itemView.findViewById(R.id.recipe_recycler_image_view) }
+        private val progressBar: ProgressBar by lazy { itemView.findViewById(R.id.recipe_image_view_progress_bar) }
 
         fun bind(position: Int) {
-            textView.apply {
-                text = recipesList[position].text
-            }
-            imageView.apply {
-                setImageBitmap(recipesList[position].image)
-            }
+            textView.text = "${position + 1}) ${recipesList[position].text}"
+            Picasso.get().load(recipesList[position].imageUrl)
+                .into(imageView, object : Callback {
+                    override fun onSuccess() {
+                        progressBar.visibility = View.GONE
+                    }
+
+                    override fun onError(e: Exception?) {
+                        imageView.setImageResource(R.drawable.ic_launcher_foreground)
+                    }
+                })
         }
 
     }

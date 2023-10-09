@@ -6,24 +6,20 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.android.course.android_course_architecture.R
 import com.android.course.android_course_architecture.presentation.main.MainActivity.Companion.KEY
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 class RecipeFragment : Fragment(R.layout.recipe_fragment) {
 
     private lateinit var recipeName: TextView
     private lateinit var ingredients: TextView
-    private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
-
-    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    private lateinit var adapter: RecipeRecyclerViewAdapter
 
     private val viewModel by lazy { ViewModelProvider(this)[RecipeFragmentViewModel::class.java] }
 
@@ -31,28 +27,31 @@ class RecipeFragment : Fragment(R.layout.recipe_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recipeName = view.findViewById(R.id.recipe_name)
         ingredients = view.findViewById(R.id.ingredients_line)
-        recyclerView = view.findViewById(R.id.recipe_recycler_view)
         progressBar = view.findViewById<ProgressBar>(R.id.recipe_progress_bar)
-            .apply { visibility = View.GONE }
 
-        val adapter = RecipeRecyclerViewAdapter().apply {
-            scope.launch {
-                viewModel.getRecipeByUrl(
-                    arguments?.getString(KEY)
-                        ?: throw IllegalStateException("No required argument: Recipe URI")
-                ) { errorToast() }
-            }
-        }
-        viewModel.recipesSteps.observe(requireActivity()) {
-            adapter.setData(it)
-        }
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recipe_recycler_view)
+        adapter = RecipeRecyclerViewAdapter()
+        recyclerView.adapter = adapter
 
-        viewModel.progressBarState.observe(requireActivity()) {
-            if (it) {
-                progressBar.visibility = View.VISIBLE
-            } else {
-                progressBar.visibility = View.GONE
+        viewModel.state.observe(requireActivity(), ::render)
+
+        viewModel.getRecipeByUrl(
+            arguments?.getString(KEY)
+                ?: throw IllegalStateException("No required argument: Recipe URI")
+        )
+    }
+
+    private fun render(state: RecipeFragmentViewState) {
+        when (state) {
+            is RecipeFragmentViewState.Loading -> progressBar.isVisible = true
+            is RecipeFragmentViewState.Content -> {
+                progressBar.isGone = true
+                recipeName.text = state.items.recipeName
+                ingredients.text = state.items.ingredients
+                adapter.setData(state.items.recipeSteps)
             }
+
+            is RecipeFragmentViewState.Error -> errorToast()
         }
     }
 

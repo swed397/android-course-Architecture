@@ -1,13 +1,10 @@
 package com.android.course.android_course_architecture.data
 
-import android.graphics.Bitmap
 import com.android.course.android_course_architecture.data.api.RecipesService
 import com.android.course.android_course_architecture.domain.model.DetailRecipeModel
 import com.android.course.android_course_architecture.domain.model.RecipeStep
 import com.android.course.android_course_architecture.domain.model.RecipesModel
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 class RecipeRepository(private val recipesService: RecipesService) {
@@ -17,28 +14,26 @@ class RecipeRepository(private val recipesService: RecipesService) {
                 RecipesModel(
                     label = it.recipe.label,
                     calories = it.recipe.calories.toInt(),
-                    image = async { getImageByUrl(it.recipe.imagesUri.thumbnail.url) }.await(),
+                    imageUrl = it.recipe.imagesUri.thumbnail.url,
                     uri = it.recipe.recipeUri
                 )
             }
         }
 
-    suspend fun getRecipeByUri(uri: String): DetailRecipeModel =
+    suspend fun getRecipeByUri(url: String): DetailRecipeModel =
         withContext(Dispatchers.IO) {
-            recipesService.getRecipeByUri(uri = listOf(uri)).hits[0].run {
+            recipesService.getRecipeByUri(uri = listOf(url)).hits[0].run {
                 DetailRecipeModel(
                     recipeName = recipe.label,
                     ingredients = recipe.ingredientLines.joinToString(", "),
                     recipeSteps = recipe.ingredients.map {
                         RecipeStep(
                             text = it.text,
-                            image = async { getImageByUrl(it.imageUri) }.await()
+                            imageUrl = it.imageUri
                         )
                     }
                 )
             }
         }
-
-    private fun getImageByUrl(url: String): Bitmap = Picasso.get().load(url).get()
 }
 
